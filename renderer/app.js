@@ -1,11 +1,10 @@
-import { createSSRApp, h } from 'vue'
-import PageShell from './PageShell.vue'
-import { setPageContext } from './usePageContext'
-
-export { createApp }
+import { createSSRApp, h } from 'vue';
+import { plugin, defaultConfig } from '@formkit/vue/dist/index.esm';
+import PageShell from './PageShell.vue';
+import { setPageContext } from './usePageContext';
 
 function createApp(pageContext) {
-  const { Page, pageProps } = pageContext
+  const { Page, pageProps } = pageContext;
   const PageWithLayout = {
     render() {
       return h(
@@ -13,17 +12,20 @@ function createApp(pageContext) {
         {},
         {
           default() {
-            return h(Page, pageProps || {})
+            return h(Page, pageProps || {});
           },
         },
-      )
+      );
     },
-  }
+  };
 
-  const app = createSSRApp(PageWithLayout)
+  const app = createSSRApp(PageWithLayout);
+  app.use(plugin, defaultConfig);
 
   // We make `pageContext` available from any Vue component
-  setPageContext(app, pageContext)
+  setPageContext(app, pageContext);
 
-  return app
+  return app;
 }
+
+export { createApp };
