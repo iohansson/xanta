@@ -1,7 +1,9 @@
 import * as cheerio from 'cheerio';
 import { findSchema, getProduct as getProductFromSchema } from './schema.org';
+import { findMicrodata, getProduct as getProductFromMicrodata } from './microdata';
 
 export interface Product {
+  brand?: string;
   name: string;
   price?: string;
   currency?: string;
@@ -20,15 +22,21 @@ export async function getProduct(url): Promise<Product> {
   // try schema.org
   const schema = findSchema(h);
   if (schema) return getProductFromSchema(schema);
+  const microdata = findMicrodata(h);
+  if (microdata) return getProductFromMicrodata(microdata);
   // try providers
   // const provider = findProvider(response);
   // try meta
   // const meta = findMeta(h);
   // die
 
+  let price = h('#price');
+  if (!price.length) price = h('.a-price').first();
+  if (price.children().length > 1) price = price.children().first();
+
   return {
     name: h('#productTitle').text().trim(),
-    price: h('#price').text().trim(),
+    price: price.text().trim(),
     image: h('#main-image-container img[src]').attr('src'),
     url: h('link[rel="canonical"]').attr('href'),
     id: h('link[rel="canonical"]').attr('href'),

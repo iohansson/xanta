@@ -2,25 +2,13 @@ import { Product } from './index';
 
 const SCHEMA_SELECTOR = 'script[type="application/ld+json"]';
 
-interface SchemaOrgOffer {
-  price: string;
-  priceCurrency: string;
-  sku: string;
-}
-
-interface SchemaOrgProduct {
-  name: string;
-  image: string;
-  id: string;
-  offers: SchemaOrgOffer[];
-  sku: string;
-  url: string;
-}
+const scripts = c => c(SCHEMA_SELECTOR)
+  .filter((i, el) => /["\\]*@type["\\]*:\s*["\\]*Product["\\]*/.test(c(el).html()));
 
 export function findSchema(cheerio): SchemaOrgProduct {
-  const schemaScript = cheerio(SCHEMA_SELECTOR)?.first();
+  const schemaScript = scripts(cheerio).first();
 
-  if (!schemaScript) return null;
+  if (!schemaScript.length) return null;
 
   try {
     return JSON.parse(schemaScript.html());
@@ -31,6 +19,7 @@ export function findSchema(cheerio): SchemaOrgProduct {
 
 export function getProduct(schema: SchemaOrgProduct): Product {
   return {
+    brand: typeof schema.brand === 'string' ? schema.brand.trim() : schema.brand?.name,
     name: schema.name.trim(),
     price: schema.offers.at(0)?.price,
     currency: schema.offers.at(0)?.priceCurrency,
@@ -38,4 +27,20 @@ export function getProduct(schema: SchemaOrgProduct): Product {
     id: schema['@id'],
     url: schema.url,
   };
+}
+
+interface SchemaOrgOffer {
+  price: string;
+  priceCurrency: string;
+  sku: string;
+}
+
+interface SchemaOrgProduct {
+  brand?: string | { name: string };
+  name: string;
+  image: string;
+  id: string;
+  offers: SchemaOrgOffer[];
+  sku: string;
+  url: string;
 }
