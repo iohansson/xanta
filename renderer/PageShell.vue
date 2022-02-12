@@ -1,5 +1,5 @@
 <template>
-  <div class="layout">
+  <div class="layout bg-black text-white">
     <div class="navigation">
       <a
         href="/"

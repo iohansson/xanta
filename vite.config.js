@@ -15,4 +15,9 @@ export default {
     vue(),
     ssr(),
   ],
+  resolve: {
+    alias: {
+      '#root': __dirname,
+    },
+  },
 };
