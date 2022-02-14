@@ -26,9 +26,9 @@ export async function getProduct(url): Promise<Product> {
   if (microdata) return getProductFromMicrodata(microdata);
   // try providers
   // const provider = findProvider(response);
-  // try meta
+  // fall to meta
   // const meta = findMeta(h);
-  // die
+  // no meta - die
 
   let price = h('#price');
   if (!price.length) price = h('.a-price').first();

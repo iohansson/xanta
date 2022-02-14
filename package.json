@@ -2,8 +2,8 @@
   "name": "xanta",
   "version": "0.0.1",
   "author": {
-    "name" : "Helge Eight",
-    "email" : "helge8@drinks.vodka"
+    "name": "Helge Eight",
+    "email": "helge8@drinks.vodka"
   },
   "scripts": {
     "dev": "npm run server",
@@ -13,6 +13,7 @@
     "server:prod": "cross-env NODE_ENV=production node ./server"
   },
   "dependencies": {
+    "@clerk/clerk-js": "^2.13.2",
     "@formkit/vue": "^1.0.0-beta.2",
     "@vitejs/plugin-vue": "^2.0.1",
     "@vue/compiler-sfc": "^3.2.26",
