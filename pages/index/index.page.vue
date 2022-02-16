@@ -1,61 +1,43 @@
 <template>
-  <h1>Stuff</h1>
+  <h1
+    class="text-6xl font-black leading-tight pb-8"
+  >covertsanta</h1>
   <form-kit
     v-model="state.url"
     type="url"
-    label="url"
+    label="put url here"
     placeholder="https://good.stuff"
     validation="required|url"
-    input-class="text-base text-black border border-black px-2 py-1"
-    label-class="text-base font-medium pb-1 block"
+    :input-class="`
+      text-2xl text-black font-medium leading-tight
+      border-2 border-black px-4 py-2 focus:outline-solid-hex-ff90e8 block w-full
+      bg-white
+    `"
+    label-class="text-lg font-bold pb-1 block"
+    outer-class="pb-4"
   />
   <button
-    class="bg-white text-black px-4 py-1 uppercase font-bold mt-4"
+    class="bg-white text-black px-4 py-1 uppercase font-bold mb-8 ml-auto inline-block border-2 border-black"
     @click="addProduct"
   >
     Click
   </button>
   <div
-    class="py-12"
+    class="pb-8 grid grid-cols-2 gap-8"
   >
-    <a
+    <x-card
       v-for="item in state.items"
       :key="item.id"
-      :href="item.url"
-      class="flex max-w-[400px] bg-white text-black w-full border-black rounded-20px transition cursor-pointer"
-    >
-      <div
-        :class="{
-          'w-200px rounded-20px transition relative max-h-250px overflow-hidden': true,
-          'flex items-center justify-center flex-shrink-0': true,
-        }"
-      >
-        <img
-          :src="item.image"
-          class="w-full rounded-20px transition"
-        >
-      </div>
-      <div
-        class="p-4 flex flex-col"
-      >
-        <div
-          class="pb-2 font-bold"
-        >
-          {{ item.name }}
-        </div>
-        <div
-          class="bg-red text-white font-sans cursor-pointer rounded-12px py-1 px-2 mt-auto ml-auto"
-        >
-          {{ item.price }}
-        </div>
-      </div>
-    </a>
+      :item="item"
+    />
   </div>
 </template>
 
 <script setup async>
 import { reactive } from 'vue';
 import { getProduct } from '#root/services/parse';
+import service from '#root/services/api';
+import XCard from '#root/components/XCard.vue';
 
 const state = reactive({
   url: '',
@@ -99,4 +81,7 @@ async function addProduct() {
 
   state.items.push(product);
 }
+
+const products = await service.get();
+console.log(products);
 </script>

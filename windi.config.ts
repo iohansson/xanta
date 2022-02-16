@@ -1,5 +1,4 @@
 import { defineConfig } from 'windicss/helpers';
-import colors from 'windicss/colors';
 
 export default defineConfig({
   theme: {
@@ -11,6 +10,13 @@ export default defineConfig({
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+      },
+    },
+  },
+  shortcuts: {
+    'shadow-card': {
+      '&:hover': {
+        boxShadow: '6px 6px 0 0 #1b1b1b',
       },
     },
   },

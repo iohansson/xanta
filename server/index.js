@@ -1,6 +1,13 @@
+require('dotenv').config();
+const ProductController = require('./api/product/controller');
 const express = require('express');
 const compression = require('compression');
 const { createPageRenderer } = require('vite-plugin-ssr');
+const mongoose = require('mongoose');
+
+const { DB_USER, DB_PASS } = process.env;
+console.log(DB_USER, DB_PASS);
+mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASS}@xanta.e5iwg.mongodb.net/mahBase?retryWrites=true&w=majority`);
 
 const isProduction = process.env.NODE_ENV === 'production';
 const root = `${__dirname}/..`;
@@ -21,6 +28,9 @@ async function startServer() {
     });
     app.use(viteDevServer.middlewares);
   }
+
+  app.get('/api/products', ProductController.get);
+  app.post('/api/products', ProductController.post);
 
   const renderPage = createPageRenderer({ viteDevServer, isProduction, root });
   app.get('*', async (req, res, next) => {

@@ -7,7 +7,7 @@ export default {
     windicss({
       scan: {
         // By default only `src/` is scanned
-        dirs: ['pages'],
+        dirs: ['pages', 'components'],
         // We only have to specify the file extensions we actually use.
         fileExtensions: ['vue', 'js', 'ts', 'jsx', 'tsx', 'html', 'pug'],
       },
