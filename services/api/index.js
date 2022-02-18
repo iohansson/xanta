@@ -23,4 +23,12 @@ export default {
   post(product) {
     return axios.post('/products', product);
   },
+
+  html(url) {
+    return axios.get('/products/html', {
+      params: {
+        url,
+      },
+    });
+  },
 };

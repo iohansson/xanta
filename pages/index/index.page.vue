@@ -1,7 +1,9 @@
 <template>
   <h1
-    class="text-6xl font-black leading-tight pb-8"
-  >covertsanta</h1>
+    class="text-7xl font-black leading-tight pb-8"
+  >
+    covertsanta
+  </h1>
   <form-kit
     v-model="state.url"
     type="url"
@@ -17,10 +19,19 @@
     outer-class="pb-4"
   />
   <button
-    class="bg-white text-black px-4 py-1 uppercase font-bold mb-8 ml-auto inline-block border-2 border-black"
+    class="
+      bg-white text-black
+      block border-2 border-black mx-auto mb-16 px-8 py-2
+      leading-tight font-bold text-xl uppercase
+    "
     @click="addProduct"
   >
-    Click
+    <span>Click</span>
+    <!-- <x-loading
+      class="w-4"
+      track="#f1f1f1"
+      snake="#1b1b1b"
+    /> -->
   </button>
   <div
     class="pb-8 grid grid-cols-2 gap-8"
@@ -36,8 +47,9 @@
 <script setup async>
 import { reactive } from 'vue';
 import { getProduct } from '#root/services/parse';
-import service from '#root/services/api';
+// import service from '#root/services/api';
 import XCard from '#root/components/XCard.vue';
+// import XLoading from '#root/components/XLoading.vue';
 
 const state = reactive({
   url: '',
@@ -77,11 +89,12 @@ const state = reactive({
 });
 
 async function addProduct() {
+  console.log('add product');
   const product = await getProduct(state.url);
 
   state.items.push(product);
 }
 
-const products = await service.get();
-console.log(products);
+// const products = await service.get();
+// console.log(products);
 </script>

@@ -5,8 +5,9 @@ export default defineConfig({
     extend: {
       colors: {
         black: '#1b1b1b',
-        white: '#f1f1f1',
+        white: '#ffffff',
         red: '#ff1f1f',
+        whiteish: '#f1f1f1',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

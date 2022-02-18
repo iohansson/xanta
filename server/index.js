@@ -30,6 +30,7 @@ async function startServer() {
   }
 
   app.get('/api/products', ProductController.get);
+  app.get('/api/products/html', ProductController.html);
   app.post('/api/products', ProductController.post);
 
   const renderPage = createPageRenderer({ viteDevServer, isProduction, root });

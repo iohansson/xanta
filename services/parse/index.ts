@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { findSchema, getProduct as getProductFromSchema } from './schema.org';
 import { findMicrodata, getProduct as getProductFromMicrodata } from './microdata';
+import api from '#root/services/api';
 
 export interface Product {
   brand?: string;
@@ -13,16 +14,14 @@ export interface Product {
 }
 
 export async function getProduct(url): Promise<Product> {
-  const response = await fetch(url, {
-    credentials: 'include',
-  });
-  const html = await response.text();
-  const h = cheerio.load(html);
+  const h = cheerio.load(await api.html(url));
 
   // try schema.org
   const schema = findSchema(h);
+  console.log('schema', schema);
   if (schema) return getProductFromSchema(schema);
   const microdata = findMicrodata(h);
+  console.log('microdata', microdata);
   if (microdata) return getProductFromMicrodata(microdata);
   // try providers
   // const provider = findProvider(response);

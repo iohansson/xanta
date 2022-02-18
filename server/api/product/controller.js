@@ -1,4 +1,5 @@
 const Product = require('./model');
+const axios = require('axios');
 
 module.exports = {
   async get(req, res) {
@@ -6,5 +7,14 @@ module.exports = {
   },
   async post(req, res) {
     res.status(201).json(await Product.create(req.body));
+  },
+
+  async html(req, res) {
+    console.log('get', req.query.url);
+    const response = await axios.get(req.query.url, {
+      withCredentials: true,
+    });
+    
+    res.status(200).send(response.data);
   },
 };
